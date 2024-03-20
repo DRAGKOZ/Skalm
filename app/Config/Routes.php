@@ -8,10 +8,10 @@
 	 * @var RouteCollection $routes
 	 */
 	$routes->setDefaultNamespace ( 'App\Controllers' );
-	$routes->setDefaultController ( 'Home' );
+	$routes->setDefaultController ( 'CardQR' );
 	$routes->setDefaultMethod ( 'index' );
 	$routes->setTranslateURIDashes ( FALSE );
 	$routes->set404Override ();
 	$routes->setAutoRoute ( false );
-	$routes->get ( '/', 'Home::index' );
+	$routes->get ( '/', 'CardQR::index' );
 	$routes->get ( 'bikersQR', 'CardQR::index' );

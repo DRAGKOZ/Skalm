@@ -43,5 +43,8 @@
 			$result->saveToFile('C:\web\apps\Skalm\public\qr.png');
 // Generate a data URI to include image data inline (i.e. inside an <img> tag)
 			$dataUri = $result->getDataUri();
+			"Fr3Sk4lmHOstig_24
+m5dHkNe43Bazgl
+IF0_36211036"
 		}
 	}

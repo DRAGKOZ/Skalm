@@ -15,3 +15,4 @@
 	$routes->setAutoRoute ( false );
 	$routes->get ( '/', 'CardQR::index' );
 	$routes->get ( 'bikersQR', 'CardQR::index' );
+	$routes->get ( 'qr', 'CardQR::generateVCard' );

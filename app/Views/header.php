@@ -25,7 +25,7 @@
 	</style>
 </head>
 
-<body>
+<body class="blue-grey darken-4">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script
 		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"
@@ -37,12 +37,26 @@
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 	$(document).ready(function () {
+		let now = new Date("now");
 		$(".dropdown-trigger").dropdown({
 			hover: true,
 			constrain_width: false,
 			gutter: 25,
 			belowOrigin: true,
 			alignment: "right"
+		});
+		$(".datepicker").datepicker({
+			defaultDate: new Date((new Date().getFullYear() - 18) + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate()),
+			minDate: new Date((now.getFullYear() - 99) + "-01-31"),
+			maxDate: new Date("now"),
+			yearRange: [new Date().getFullYear() - 90, new Date().getFullYear() - 18],
+			i18n: {
+				months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+				monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+				weekdays: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+				weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+				weekdaysAbbrev: ["D", "L", "M", "MI", "J", "V", "S"]
+			}
 		});
 	});
 </script>
@@ -53,10 +67,10 @@
 				<a href="#" class="brand-logo">SKALM ᛋᚲᚨᛚᛗ</a>
 				<ul class="right hide-on-med-and-down">
 					<li><a href="/">Inicio</a></li>
-					<li><a href="/bikersQR">Tarjeta QR</a></li>
+					<li><a href="<?= base_url ( '/bikersQR' ) ?>">Tarjeta QR</a></li>
 				</ul>
 			</div>
 		</nav>
 	</div>
 </header>
-<main class="blue-grey darken-3">
+<main class="blue-grey darken-3" style="padding: 20px 0 20px 0;">

@@ -20,23 +20,23 @@
 		}
 		public function generateVCard () {
 			extract ( $_POST );
-			$vcard = "BEGIN:VCARD
-VERSION:2.1
-N:Contacto;Drakoz Prueba;De;;
-FN:Drakoz Prueba De Contacto
-X-ANDROID-CUSTOM:vnd.android.cursor.item/nickname;DRAKOZ;1;;;;;;;;;;;;;
-TEL;:772-118-5658
-TEL;CELL:771-262-5355
-TEL;:772-727-0852
-TEL;:557-474-7474
-URL:https://www.facebook.com/Ocelotlcdmxmg
-NOTE;ENCODING=QUOTED-PRINTABLE:=54=69=70=6F=20=64=65=20=73=61=6E=67=72=65=3A=20=61=2B=0A=4D=6F=74=6F=
-=3A=20=64=6F=6D=69=6E=61=72=20=34=30=30
-BDAY:1997-06-21
-X-ANDROID-CUSTOM:vnd.android.cursor.item/relation;Atzimba;0;Emergencia 1;;;;;;;;;;;;
-X-ANDROID-CUSTOM:vnd.android.cursor.item/relation;Lilia;0;Emergencia 2;;;;;;;;;;;;
-END:VCARD
-";
+//			$vcard = "BEGIN:VCARD
+//VERSION:2.1
+//N:Contacto;Drakoz Prueba;De;;
+//FN:Drakoz Prueba De Contacto
+//X-ANDROID-CUSTOM:vnd.android.cursor.item/nickname;DRAKOZ;1;;;;;;;;;;;;;
+//TEL;:772-118-5658
+//TEL;CELL:771-262-5355
+//TEL;:772-727-0852
+//TEL;:557-474-7474
+//URL:https://www.facebook.com/Ocelotlcdmxmg
+//NOTE;ENCODING=QUOTED-PRINTABLE:=54=69=70=6F=20=64=65=20=73=61=6E=67=72=65=3A=20=61=2B=0A=4D=6F=74=6F=
+//=3A=20=64=6F=6D=69=6E=61=72=20=34=30=30
+//BDAY:1997-06-21
+//X-ANDROID-CUSTOM:vnd.android.cursor.item/relation;Atzimba;0;Emergencia 1;;;;;;;;;;;;
+//X-ANDROID-CUSTOM:vnd.android.cursor.item/relation;Lilia;0;Emergencia 2;;;;;;;;;;;;
+//END:VCARD
+//";
 			$notes = "";
 			$vcard = "BEGIN:VCARD\r\n";
 			$vcard .= "VERSION:2.1\r\n";
@@ -109,20 +109,23 @@ END:VCARD
 				->size ( 800 )
 				->margin ( 25 )
 				->roundBlockSizeMode ( new RoundBlockSizeModeMargin() )
-//				->logoPath ( realpath ( './assets/emergency.png' ) )
-//				->logoResizeToWidth ( 200 )
-//				->logoPunchoutBackground ( false )
+				->logoPath ( realpath ( './assets/emergency.png' ) )
+				->logoResizeToWidth ( 200 )
+				->logoPunchoutBackground ( FALSE )
 				->labelText ( 'QR de emergencia' )
 				->labelFont ( new NotoSans( 40 ) )
 				->labelAlignment ( new LabelAlignmentCenter() )
 				->validateResult ( FALSE )
 				->build ();
-			$path = 'C:\web\apps\Skalm\public\qr' . rand ( 1, 100 ) . '.png';
+			$nameQr = "qr_" . strtotime ( 'now' ) . ".png";
+			$path = $_SERVER[ 'CONTEXT_DOCUMENT_ROOT' ] . '/tmp/' . $nameQr;
+			$url = base_url ('/tmp/'.$nameQr);
 			$result->saveToFile ( $path );
-// Generate a data URI to include image data inline (i.e. inside an <img> tag)
-			$dataUri = $result->getDataUri ();
-			var_dump ( $dataUri );
-			echo "<img src='$path' alt='codigo qr'/>";
+			sleep ( 2 );
+			return json_encode ([
+				'fileName' => $nameQr,
+				'url'  => $url,
+			]);
 			/*"Fr3Sk4lmHOstig_24
 	m5dHkNe43Bazgl
 	IF0_36211036"*/

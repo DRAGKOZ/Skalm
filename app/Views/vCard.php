@@ -148,6 +148,22 @@
         </div>
     </form>
 </div>
+<div id="viewer" class="modal modal-fixed-footer">
+	<div class="modal-content">
+		<h4>Código QR generado.</h4>
+		<div class="card hoverable">
+			<div class="card-image" id="placeQR">
+			
+			</div>
+			<div class="card-action">
+				<a id="download" >Descargar</a>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="/" class="modal-close waves-effect waves-red btn-flat">Cerrar</a>
+	</div>
+</div>
 <script>
     $(document).ready(function () {
         $('#vcard').on("submit", function (e) {
@@ -181,6 +197,7 @@
                 beforeSend: function () {
                 },
                 success: function (data) {
+					
                     console.log(data);
                 },
                 complete: function () {

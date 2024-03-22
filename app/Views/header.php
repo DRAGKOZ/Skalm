@@ -12,17 +12,7 @@
 			crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>.:SKALM:.</title>
-	<style>
-        body {
-            display: flex;
-            min-height: 100vh;
-            flex-direction: column;
-        }
 
-        main {
-            flex: 1 0 auto;
-        }
-	</style>
 </head>
 
 <body class="blue-grey darken-4">

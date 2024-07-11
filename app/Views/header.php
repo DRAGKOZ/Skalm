@@ -25,6 +25,7 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"
 		integrity="sha512-NiWqa2rceHnN3Z5j6mSAvbwwg3tiwVNxiAQaaSMSXnRRDh5C2mk/+sKQRw8qjV1vN4nf8iK2a0b048PnHbyx+Q=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--suppress JSUnresolvedReference -->
 <script>
 	$(document).ready(function () {
 		let now = new Date("now");
@@ -48,19 +49,43 @@
 				weekdaysAbbrev: ["D", "L", "M", "MI", "J", "V", "S"]
 			}
 		});
+		$(".sidenav").sidenav();
 	});
 </script>
+<?php
+	$menuItems = [
+		'login' => [
+			'home' => [ 'Inicio', base_url () ],
+			'bikersQR' => [ 'Tarjeta QR', base_url ( 'bikersQR' ) ],
+			'signout' => [ 'Cerrar sesión', base_url ( 'signout' ) ],
+		],
+		'logout' => [
+			'signin' => [ 'Iniciar sesión', base_url ( 'signin' ) ],
+			'signup' => [ 'Registrarse', base_url ( 'signup' ) ],
+			'forgot' => [ 'Recuperar contraseña', base_url ( 'forgot' ) ],
+		],
+	];
+	$session = $session ?? 0;
+	$menuSelected = $menuItems[ $session === 0 ? 'login' : 'logout' ];
+	$menu = array_reduce ( $menuSelected, function ( $carry, $item ) {
+		return $carry . "<li><a href='$item[1]'>$item[0]</a></li>";
+	}, '' );
+?>
 <header>
 	<div class="navbar-fixed blue-grey darken-4">
 		<nav>
 			<div class="nav-wrapper blue-grey darken-4">
-				<a href="#" class="brand-logo">SKALM ᛋᚲᚨᛚᛗ</a>
+				<a href="<?= base_url (); ?>" class="brand-logo">SKALM ᛋᚲᚨᛚᛗ</a>
+				<a href="<?= base_url (); ?>" data-target="mobile-demo" class="sidenav-trigger"><i
+							class="material-icons">menu</i></a>
 				<ul class="right hide-on-med-and-down">
-					<li><a href="/">Inicio</a></li>
-					<li><a href="<?= base_url ( '/bikersQR' ) ?>">Tarjeta QR</a></li>
+					<?= $menu ?>
 				</ul>
 			</div>
 		</nav>
 	</div>
+	<ul class="sidenav" id="mobile-demo">
+		<?= $menu ?>
+	</ul>
 </header>
 <main class="blue-grey darken-3" style="padding: 20px 0 20px 0;">

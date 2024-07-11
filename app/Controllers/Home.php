@@ -2,10 +2,14 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\HTTP\RedirectResponse;
+
 class Home extends BaseController
 {
-    public function index(): string
-    {
-        return view('welcome_message');
-    }
+	public function index (): string|RedirectResponse {
+		if ($this->validateSession ()){
+			return view ( 'header' ) . view ( 'main' ) . view ( 'footer' );
+		}
+		return redirect ('signin');
+	}
 }

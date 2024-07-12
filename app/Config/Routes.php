@@ -24,6 +24,8 @@
 	$routes->get ( '/', 'Home::index' /**@uses \App\Controllers\Home::index * */ );
 	$routes->get ( 'bikersQR', 'CardQR::index' /**@uses \App\Controllers\CardQR::index * */ );
 	//====================================||   POST  ||====================================
+	$routes->post ( 'signup', 'SignupController::signup' /**@uses \App\Controllers\SignupController::signup * */ );
+	$routes->post ( 'signin', 'SigninController::signIn' /**@uses \App\Controllers\SigninController::signIn * */ );
 	$routes->post ( 'generateQR', 'CardQR::generateVCard' /**@uses \App\Controllers\CardQR::generateVCard* */ );
 	//====================================||   PUT   ||====================================
 	//====================================||  PATCH  ||====================================

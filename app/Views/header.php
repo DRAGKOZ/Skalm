@@ -88,4 +88,36 @@
 		<?= $menu ?>
 	</ul>
 </header>
+<!--suppress CssUnusedSymbol -->
+<style>
+    /* label underline focus color */
+    .input-field input:focus {
+        border-bottom: 1px solid #19298a !important;
+        box-shadow: 0 1px 0 0 #000000;
+    }
+
+    /* label focus color */
+    .input-field input:focus + label {
+        color: #19298a !important;
+    }
+
+    /* valid color */
+    .input-field input.valid {
+        border-bottom: 1px solid #19298A !important;
+        box-shadow: 0 1px 0 0 #000000;
+    }
+    #skalmLoader {
+        display: none;
+        position: absolute;
+        background-color: rgba(255, 255, 255, .1);
+        background-image: url('/assets/img/loader.gif') !important;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 60%;
+        top: 0;
+        z-index: 999;
+        transition: opacity 5s ease, visibility 5s ease;
+    }
+</style>
+<div  id="skalmLoader"></div>
 <main class="blue-grey darken-3" style="padding: 20px 0 20px 0;">

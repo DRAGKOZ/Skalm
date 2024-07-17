@@ -1,6 +1,6 @@
 <?php
 	
-	namespace Config;
+	namespace CodeIgniter\Commands\Utilities\Routes;
 	
 	use CodeIgniter\Router\RouteCollection;
 	
@@ -8,11 +8,10 @@
 	 * @var RouteCollection $routes
 	 */
 	$routes->setDefaultNamespace ( 'App\Controllers' );
-	$routes->setDefaultController ( 'CardQR' );
 	$routes->setTranslateURIDashes ( FALSE );
+	$routes->setDefaultController ( 'Home' );
 	$routes->setDefaultMethod ( 'index' );
 	$routes->setAutoRoute ( FALSE );
-	$routes->set404Override ();
 	//====================================||  Rutas  ||====================================
 	//====================================|| Webhook ||====================================
 	//====================================|| Session ||====================================

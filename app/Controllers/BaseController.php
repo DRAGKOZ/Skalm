@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 	
 	namespace App\Controllers;
 	
@@ -7,18 +7,10 @@
 	use CodeIgniter\HTTP\IncomingRequest;
 	use CodeIgniter\HTTP\RequestInterface;
 	use CodeIgniter\HTTP\ResponseInterface;
+	use CodeIgniter\Validation\Exceptions\ValidationException;
+	use Config\Services;
 	use Psr\Log\LoggerInterface;
 	
-	/**
-	 * Class BaseController
-	 *
-	 * BaseController provides a convenient place for loading components
-	 * and performing functions that are needed by all your controllers.
-	 * Extend this class in any new controllers:
-	 *     class Home extends BaseController
-	 *
-	 * For security be sure to declare any new methods as protected or private.
-	 */
 	abstract class BaseController extends Controller {
 		public string $env = 'SANDBOX';
 		/**
@@ -35,30 +27,30 @@
 		 * @var array
 		 */
 		protected $helpers = [];
+		public function __construct () {
+		}
 		/**
-		 * Be sure to declare properties for any property fetch you initialized.
-		 * The creation of dynamic property is deprecated in PHP 8.2.
-		 */
-		// protected $session;
-		/**
+		 * @param RequestInterface  $request
+		 * @param ResponseInterface $response
+		 * @param LoggerInterface   $logger
+		 *
 		 * @return void
+		 * @noinspection PhpMultipleClassDeclarationsInspection
 		 */
-		public function initController ( RequestInterface $request, ResponseInterface $response, LoggerInterface $logger ) {
+		public function initController ( RequestInterface $request, ResponseInterface $response, LoggerInterface $logger ): void {
 			// Do Not Edit This Line
 			parent::initController ( $request, $response, $logger );
 			// Preload any models, libraries, etc, here.
 			// E.g.: $this->session = \Config\Services::session();
 		}
-		public function validateSession (): bool {
-			$session = session ();
-			$login = $session->get ( 'logged_in' ) !== NULL ? $session->get ( 'logged_in' ) : FALSE;
-			$session->set ( 'logged_in', $login );
-			return $login;
-		}
 		public function getResponse ( array $responseBody, int $code = ResponseInterface::HTTP_OK ): ResponseInterface {
-			return $this->response->setStatusCode ( $code )->setJSON ( $responseBody )->setHeader ( 'Access-Control-Allow-Origin', '*' );
+//			echo json_encode ( $responseBody );
+			return $this->response->setStatusCode ( $code )->setJSON ( $responseBody )
+				->setHeader ( 'Access-Control-Allow-Origin', '*' )
+				->setHeader ( 'Content-Type', 'application/json' )->setContentType ( 'application/json' );
 		}
 		/**
+		 * Obtiene los datos que se reciben en la petición
 		 * @param IncomingRequest $request
 		 *
 		 * @return array|bool|float|int|mixed|object|string|null
@@ -70,6 +62,12 @@
 			}
 			return $input;
 		}
+		/**
+		 * Obtiene los datos que se reciben por GET
+		 * @param IncomingRequest $request
+		 *
+		 * @return mixed
+		 */
 		public function getGetRequestInput ( IncomingRequest $request ): mixed {
 			$input = $request->getPostGet ();
 			//			$input = $request->getPost ();
@@ -88,6 +86,27 @@
 		public function environment ( mixed $env ): void {
 			$this->env = isset( $env[ 'environment' ] ) ? strtoupper ( $env[ 'environment' ] ) : 'SANDBOX';
 		}
+		//====================================|| Errores HTTP ||====================================
+		public function serverError ( $description, $reason ): ResponseInterface {
+			return $this->getResponse ( [ 'error' => 500, 'description' => $description, 'reason' => $reason ], ResponseInterface::HTTP_INTERNAL_SERVER_ERROR );
+		}
+		public function dataTypeNotAllowed ( $dataType ): ResponseInterface {
+			return $this->getResponse ( [ 'error' => 400, 'description' => 'Tipo de dato invalido', 'reason' => 'Se esperaba contenido en formato [' . $dataType . ']' ], ResponseInterface::HTTP_BAD_REQUEST );
+		}
+		public function methodNotAllowed ( $endpoint ): ResponseInterface {
+			return $this->getResponse ( [ 'error' => 405, 'description' => 'Método no implementado', 'reason' => 'El método utilizado no coincide con el que solicita [' . $endpoint . ']' ], ResponseInterface::HTTP_METHOD_NOT_ALLOWED );
+		}
+		public function errDataSuplied ( $reason ): ResponseInterface {
+			return $this->getResponse ( [ 'error' => 400, 'description' => 'Datos de petición incorrectos', 'reason' => $reason ], ResponseInterface::HTTP_BAD_REQUEST );
+		}
+		public function pageNotFound (): ResponseInterface {
+			return $this->getResponse ( [ 'error' => 404, 'description' => 'Recurso no encontrada', 'reason' => 'Verifique que el endpoint sea correcto' ], ResponseInterface::HTTP_NOT_FOUND );
+		}
+		public function dataNotFound (): ResponseInterface {
+			return $this->getResponse ( [ 'error' => 404, 'description' => 'Recurso no encontrada', 'reason' => 'No se encontró información con los datos ingresados' ], ResponseInterface::HTTP_NOT_FOUND );
+		}
+		//==========================================================================================
+		//====================================|| Validaciones y filtros ||====================================
 		/**
 		 * Permite validar que el método y tipo de dato sean correctos al que solícita el recurso
 		 *
@@ -108,23 +127,29 @@
 			}
 			return FALSE;
 		}
-		public function pageNotFound (): ResponseInterface {
-			return $this->getResponse ( [ 'error' => 404, 'description' => 'Recurso no encontrada', 'reason' => 'Verifique que el endpoint sea correcto' ], ResponseInterface::HTTP_NOT_FOUND );
-		}
-		public function dataNotFound (): ResponseInterface {
-			return $this->getResponse ( [ 'error' => 404, 'description' => 'Recurso no encontrada', 'reason' => 'No se encontró información con los datos ingresados' ], ResponseInterface::HTTP_NOT_FOUND );
-		}
-		public function methodNotAllowed ( $endpoint ): ResponseInterface {
-			return $this->getResponse ( [ 'error' => 405, 'description' => 'Método no implementado', 'reason' => 'El método utilizado no coincide con el que solicita [' . $endpoint . ']' ], ResponseInterface::HTTP_METHOD_NOT_ALLOWED );
-		}
-		public function dataTypeNotAllowed ( $dataType ): ResponseInterface {
-			return $this->getResponse ( [ 'error' => 400, 'description' => 'Tipo de dato invalido', 'reason' => 'Se esperaba contenido en formato [' . $dataType . ']' ], ResponseInterface::HTTP_BAD_REQUEST );
-		}
-		public function errDataSuplied ( $reason ): ResponseInterface {
-			return $this->getResponse ( [ 'error' => 400, 'description' => 'Datos de petición incorrectos', 'reason' => $reason ], ResponseInterface::HTTP_BAD_REQUEST );
-		}
-		public function serverError ( $description, $reason ): ResponseInterface {
-			return $this->getResponse ( [ 'error' => 500, 'description' => $description, 'reason' => $reason ], ResponseInterface::HTTP_INTERNAL_SERVER_ERROR );
+		/**
+		 * Válida que los datos de una petición cumpla con unas reglas específicas
+		 *
+		 * @param mixed $input    Petición de entrada
+		 * @param mixed $rules    Reglas para la validación
+		 * @param array $messages Mensaje de errores
+		 *
+		 * @return bool
+		 */
+		public function validateRequest ( mixed $input, mixed $rules, array $messages = [] ): bool {
+			$this->validator = Services::validation ()->setRules ( $rules );
+			if ( is_string ( $rules ) ) {
+				$validation = config ( 'Validation' );
+				if ( !isset( $validation->$rules ) ) {
+					throw ValidationException::forRuleNotFound ( $rules );
+				}
+				if ( !$messages ) {
+					$errorName = $rules . '_errors';
+					$messages = $validation->$errorName ?? [];
+				}
+				$rules = $validation->$rules;
+			}
+			return $this->validator->setRules ( $rules, $messages )->run ( $input );
 		}
 		/**
 		 * Preparar las fechas para los filtros
@@ -139,5 +164,15 @@
 			$from = strtotime ( $from->format ( 'm/d/y' ) . ' -1day' );
 			$to = strtotime ( $to->format ( 'm/d/y' ) . ' +1day' );
 			return [ $from, $to ];
+		}
+		/**
+		 * Valida si existe una session activa
+		 * @return bool regresa true o false si esta una session activa
+		 */
+		public function validateSession (): bool {
+			$session = session ();
+			$login = $session->get ( 'logged_in' ) !== NULL ? $session->get ( 'logged_in' ) : FALSE;
+			$session->set ( 'logged_in', $login );
+			return $login;
 		}
 	}

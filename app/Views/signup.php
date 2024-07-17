@@ -9,8 +9,8 @@
 						<label for="name">Nombre *</label>
 					</div>
 					<div class="input-field inline col s4">
-						<input id="lastname" name="lastname" type="text" class="validate" required>
-						<label for="lastname">Primer apellido * </label>
+						<input id="lastName" name="lastName" type="text" class="validate" required>
+						<label for="lastName">Primer apellido * </label>
 					</div>
 					<div class="input-field inline col s4">
 						<input id="sureName" name="sureName" type="text" class="validate">

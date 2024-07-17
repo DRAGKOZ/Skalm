@@ -29,10 +29,14 @@
 			//Se declara el ambiente a utilizar
 			$this->environment = $env === NULL ? $this->environment : $env;
 			$this->base = strtoupper ( $this->environment ) === 'SANDBOX' ? $this->dbsandbox : $this->dbprod;
-			$query = "INSERT INTO if0_36211036_skalm.users (nickname, email, password, active)
-VALUES ('{$args['nickname']}', '{$args['email']}', '{$args['password']}', 1)";
+			helper ( 'crypt_helper' );
+			$password = passwordEncrypt ( $args[ 'password' ] );
+			$query = "INSERT INTO $this->base.users (nickname, email, password, active)
+VALUES ('{$args['nickname']}', '{$args['email']}', '$password', 1)";
+			$this->db->transBegin ();
 			$this->db->query ( $query );
-			if ( $this->db->affectedRows () === 0 ) {
+			if ( $this->db->transStatus () === FALSE ) {
+				$this->db->transRollback ();
 				return [ FALSE, 0 ];
 			}
 			$inserted = $this->db->insertID ();
@@ -44,9 +48,29 @@ VALUES ($inserted, '{$args['name']}', '{$args['lastName']}', ";
 			$query2 .= isset( $args[ 'phone' ] ) ? "'{$args['phone']}'" : NULL;
 			$query2 .= ", 1)";
 			$this->db->query ( $query2 );
-			if ( $this->db->affectedRows () === 0 ) {
+			if ( $this->db->transStatus () === FALSE ) {
+				$this->db->transRollback ();
 				return [ FALSE, 1 ];
 			}
+			$this->db->transCommit ();
 			return [ TRUE, $this->db->insertID () ];
+		}
+		/**
+		 * Devuelve TRUE en caso de que se pueda insertar el nickname buscado
+		 * @param string      $nickname Nickname que se quiere ingresar
+		 * @param string|NULL $env Ambiente en el que se va a trabajar
+		 *
+		 * @return array Resultados
+		 */
+		public function searchNickname ( string $nickname, string $env = NULL ): array {
+			//Se declara el ambiente a utilizar
+			$this->environment = $env === NULL ? $this->environment : $env;
+			$this->base = strtoupper ( $this->environment ) === 'SANDBOX' ? $this->dbsandbox : $this->dbprod;
+			$query = "SELECT nickname FROM $this->base.users WHERE nickname = '$nickname'";
+			$res = $this->db->query ( $query );
+			if ( $res->getNumRows () === 0 ) {
+				return [ TRUE, 0 ];
+			}
+			return [ FALSE, $res->getNumRows () ];
 		}
 	}

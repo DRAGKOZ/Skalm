@@ -12,7 +12,8 @@
     "require": {
         "php": " ^8.0",
         "codeigniter4/framework": "^4.0",
-        "endroid/qr-code": "^4.8"
+        "endroid/qr-code": "^4.8",
+      "ext-openssl": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",

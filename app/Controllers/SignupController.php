@@ -27,15 +27,18 @@
 				'sureName' => 'max_length[30]',
 				'birthday' => 'required|max_length[30]|valid_date[F j, Y]',
 				'gender' => 'required|max_length[30]|alpha_space',
-				'nickname' => 'required|max_length[30]|alpha_numeric',
+				'nickname' => 'required|max_length[15]',
 				'email' => 'required|max_length[254]|valid_email',
-				'phone' => 'max_length[30]|integer',
+				'phone' => 'min_length[10]|max_length[10]|integer',
 				'password' => 'required|min_length[8]|max_length[128]',
 				'passwordConfirm' => 'required|min_length[8]|max_length[128]|matches[password]',
 			], [
 				'name' => [ 'max_length' => 'El campo de nombre no debe tener mas de {param} caracteres' ],
 				'lastname' => [ 'max_length' => 'El campo de primer apellido no debe tener mas de {param} caracteres' ],
 				'sureName' => [ 'max_length' => 'El campo de segundo apellido no debe tener mas de {param} caracteres' ],
+				'nickname' => [ 'max_length' => 'El nickName no debe tener mas de {param} caracteres' ],
+				'phone' => [ 'max_length' => 'No es un numero de teléfono valido',
+					'min_length' => 'No es un numero de teléfono valido', ],
 				'password' => [ 'required' => 'Toda cuenta necesita una contraseña para poder iniciar sesión',
 					'max_length' => 'La contraseña no debe tener mas de {param} caracteres',
 					'min_length' => 'La contraseña deber tener un mínimo de {param} caracteres' ],
@@ -57,6 +60,6 @@
 				}
 				return $this->serverError ( 'No se logro registrar el usuario', 'Los datos ingresados contienen errores' );
 			}
-			return $this->getResponse ( [ 'Usuario creado exitosamente' ] );
+			return $this->getResponse ( [ 'error' => 200, 'description' => 'correcto', 'reason' => 'Usuario creado exitosamente' ] );
 		}
 	}

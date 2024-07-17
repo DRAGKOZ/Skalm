@@ -9,6 +9,7 @@
 	use CodeIgniter\HTTP\ResponseInterface;
 	use CodeIgniter\Validation\Exceptions\ValidationException;
 	use Config\Services;
+	use DateTime;
 	use Psr\Log\LoggerInterface;
 	
 	abstract class BaseController extends Controller {
@@ -44,13 +45,14 @@
 			// E.g.: $this->session = \Config\Services::session();
 		}
 		public function getResponse ( array $responseBody, int $code = ResponseInterface::HTTP_OK ): ResponseInterface {
-//			echo json_encode ( $responseBody );
+			//			echo json_encode ( $responseBody );
 			return $this->response->setStatusCode ( $code )->setJSON ( $responseBody )
 				->setHeader ( 'Access-Control-Allow-Origin', '*' )
 				->setHeader ( 'Content-Type', 'application/json' )->setContentType ( 'application/json' );
 		}
 		/**
 		 * Obtiene los datos que se reciben en la petición
+		 *
 		 * @param IncomingRequest $request
 		 *
 		 * @return array|bool|float|int|mixed|object|string|null
@@ -64,6 +66,7 @@
 		}
 		/**
 		 * Obtiene los datos que se reciben por GET
+		 *
 		 * @param IncomingRequest $request
 		 *
 		 * @return mixed
@@ -154,7 +157,9 @@
 		/**
 		 * Preparar las fechas para los filtros
 		 *
-		 * @param mixed $input fecha de inicio y término
+		 * @param mixed  $input fecha de inicio y término
+		 * @param string $from
+		 * @param string $to
 		 *
 		 * @return array
 		 */

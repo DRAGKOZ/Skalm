@@ -2,15 +2,12 @@
 	
 	namespace App\Controllers;
 	
-	use App\Controllers\BaseController;
+
 	use Endroid\QrCode\Builder\Builder;
 	use Endroid\QrCode\Encoding\Encoding;
-	use Endroid\QrCode\ErrorCorrectionLevel;
 	use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 	use Endroid\QrCode\Label\Alignment\LabelAlignmentCenter;
-	use Endroid\QrCode\Label\Alignment\LabelAlignmentInterface;
 	use Endroid\QrCode\Label\Font\NotoSans;
-	use Endroid\QrCode\RoundBlockSizeMode;
 	use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 	use Endroid\QrCode\Writer\PngWriter;
 	
@@ -20,23 +17,23 @@
 		}
 		public function generateVCard () {
 			extract ( $_POST );
-//			$vcard = "BEGIN:VCARD
-//VERSION:2.1
-//N:Contacto;Drakoz Prueba;De;;
-//FN:Drakoz Prueba De Contacto
-//X-ANDROID-CUSTOM:vnd.android.cursor.item/nickname;DRAKOZ;1;;;;;;;;;;;;;
-//TEL;:772-118-5658
-//TEL;CELL:771-262-5355
-//TEL;:772-727-0852
-//TEL;:557-474-7474
-//URL:https://www.facebook.com/Ocelotlcdmxmg
-//NOTE;ENCODING=QUOTED-PRINTABLE:=54=69=70=6F=20=64=65=20=73=61=6E=67=72=65=3A=20=61=2B=0A=4D=6F=74=6F=
-//=3A=20=64=6F=6D=69=6E=61=72=20=34=30=30
-//BDAY:1997-06-21
-//X-ANDROID-CUSTOM:vnd.android.cursor.item/relation;Atzimba;0;Emergencia 1;;;;;;;;;;;;
-//X-ANDROID-CUSTOM:vnd.android.cursor.item/relation;Lilia;0;Emergencia 2;;;;;;;;;;;;
-//END:VCARD
-//";
+			//			$vcard = "BEGIN:VCARD
+			//VERSION:2.1
+			//N:Contacto;Drakoz Prueba;De;;
+			//FN:Drakoz Prueba De Contacto
+			//X-ANDROID-CUSTOM:vnd.android.cursor.item/nickname;DRAKOZ;1;;;;;;;;;;;;;
+			//TEL;:772-118-5658
+			//TEL;CELL:771-262-5355
+			//TEL;:772-727-0852
+			//TEL;:557-474-7474
+			//URL:https://www.facebook.com/Ocelotlcdmxmg
+			//NOTE;ENCODING=QUOTED-PRINTABLE:=54=69=70=6F=20=64=65=20=73=61=6E=67=72=65=3A=20=61=2B=0A=4D=6F=74=6F=
+			//=3A=20=64=6F=6D=69=6E=61=72=20=34=30=30
+			//BDAY:1997-06-21
+			//X-ANDROID-CUSTOM:vnd.android.cursor.item/relation;Atzimba;0;Emergencia 1;;;;;;;;;;;;
+			//X-ANDROID-CUSTOM:vnd.android.cursor.item/relation;Lilia;0;Emergencia 2;;;;;;;;;;;;
+			//END:VCARD
+			//";
 			$notes = "";
 			$vcard = "BEGIN:VCARD\r\n";
 			$vcard .= "VERSION:2.1\r\n";
@@ -97,7 +94,7 @@
 			}
 			if ( !empty( $notes ) ) {
 				$notes = quoted_printable_encode ( $notes );
-//				$vcard .= "NOTE;ENCODING=QUOTED-PRINTABLE:$notes";
+				//				$vcard .= "NOTE;ENCODING=QUOTED-PRINTABLE:$notes";
 			}
 			$vcard .= "END:VCARD";
 			$result = Builder::create ()
@@ -119,13 +116,13 @@
 				->build ();
 			$nameQr = "qr_" . strtotime ( 'now' ) . ".png";
 			$path = $_SERVER[ 'CONTEXT_DOCUMENT_ROOT' ] . '/tmp/' . $nameQr;
-			$url = base_url ('/tmp/'.$nameQr);
+			$url = base_url ( '/tmp/' . $nameQr );
 			$result->saveToFile ( $path );
 			sleep ( 2 );
-			return json_encode ([
+			return json_encode ( [
 				'fileName' => $nameQr,
-				'url'  => $url,
-			]);
+				'url' => $url,
+			] );
 			/*"Fr3Sk4lmHOstig_24
 	m5dHkNe43Bazgl
 	IF0_36211036"*/

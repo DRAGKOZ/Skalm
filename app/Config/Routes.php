@@ -26,6 +26,7 @@
 	$routes->post ( 'signup', 'SignupController::signup' /**@uses \App\Controllers\SignupController::signup * */ );
 	$routes->post ( 'signin', 'SigninController::signIn' /**@uses \App\Controllers\SigninController::signIn * */ );
 	$routes->post ( 'generateQR', 'CardQR::generateVCard' /**@uses \App\Controllers\CardQR::generateVCard* */ );
+	$routes->post ( 'validateNickname', 'ProfileController::validateNickname' /**@uses \App\Controllers\ProfileController::validateNickname* */ );
 	//====================================||   PUT   ||====================================
 	//====================================||  PATCH  ||====================================
 	//====================================|| DELETE  ||====================================

@@ -1,11 +1,11 @@
 <div class="container mt-5">
 	<div class="row justify-content-md-center">
 		<div class="">
-			<h2>Registrar usuario</h2>
+			<h2 style="color: white">Registrar usuario</h2>
 			<form id="formSignUp" name="formSignUp" method="POST">
 				<div class="row">
 					<div class="input-field inline col s4">
-						<input id="name" name="name" type="text" class="validate " required>
+						<input id="name" name="name" type="text" class="validate" required>
 						<label for="name">Nombre *</label>
 					</div>
 					<div class="input-field inline col s4">
@@ -68,7 +68,7 @@
 					</div>
 				</div>
 				<div class="d-grid">
-					<button id="btnSend" name="btnSend" type="submit" class="btn btn-dark blue  ">Registrarse</button>
+					<button id="btnSend" name="btnSend" type="submit" class="btn btn-dark blue">Registrarse</button>
 				</div>
 			</form>
 		</div>
@@ -77,6 +77,7 @@
 <!--suppress JSUnresolvedReference -->
 <script>
 	$(document).ready(function () {
+		let toastHTML;
 		let now = new Date("now");
 		const formSignUp = $("#formSignUp");
 		$("select").formSelect();
@@ -115,26 +116,97 @@
 				method: "POST",
 				beforeSend: function () {
 					const obj = $(formSignUp);
-					const left = obj.offset().left;
-					const top = obj.offset().top;
-					const width = obj.width();
-					const height = obj.height();
-					// $("#skalmLoader").delay(50000).css({
-					// 	display: "block",
-					// 	opacity: 1,
-					// 	visibility: "visible",
-					// 	left: left,
-					// 	top: top,
-					// 	width: width,
-					// 	height: height,
-					// 	zIndex: 999999
-					// }).focus();
+					$("#skalmLoader").delay(50000).css({
+						display: "block",
+						opacity: 1,
+						visibility: "visible",
+						left: obj.offset().left,
+						top: obj.offset().top,
+						width: obj.width(),
+						height: obj.height(),
+						zIndex: 999999
+					}).focus();
 				},
-				success: function (data) {
-					console.log(data);
+				success: function () {
+					toastHTML = "<span>Registro exitoso!!</span>" +
+						"<button onclick='M.Toast.dismissAll()' class='btn-flat toast-action'>" +
+						"<span class='material-icons' style='display: block; color: white;'>cancel</span></button>";
+					M.toast({html: toastHTML, displayLength: 20000, duration: 20000});
+					setTimeout(function () {
+						window.location.href = "<?=base_url ();?>";
+					}, 2000);
 				},
 				error: function (data) {
-				}
+					const errors = data.responseJSON.reason;
+					if ((typeof errors) === "object") {
+						$.each(errors, function (index, value) {
+							toastHTML = "<span>" + value + "</span>" +
+								"<button onclick='M.Toast.dismissAll()' class='btn-flat toast-action'>" +
+								"<span class='material-icons' style='display: block; color: white;'>cancel</span></button>";
+							M.toast({html: toastHTML, displayLength: 20000, duration: 20000});
+						});
+					} else {
+						toastHTML = "<span>" + errors + "</span>" +
+							"<button onclick='M.Toast.dismissAll()' class='btn-flat toast-action'>" +
+							"<span class='material-icons' style='display: block; color: white;'>cancel</span></button>";
+						M.toast({html: toastHTML, displayLength: 20000, duration: 20000});
+					}
+				},
+				complete: function () {
+					$("#skalmLoader").css({
+						display: "none"
+					});
+				},
+			});
+		});
+		$("#nickname").on("input", function () {
+			$.ajax({
+				url: "/validateNickname",
+				data: {nickname: $("#nickname").val()},
+				dataType: "JSON",
+				method: "POST",
+				beforeSend: function () {
+					const obj = $(formSignUp);
+					$("#skalmLoader").delay(50000).css({
+						display: "block",
+						opacity: 1,
+						visibility: "visible",
+						left: obj.offset().left,
+						top: obj.offset().top,
+						width: obj.width(),
+						height: obj.height(),
+						zIndex: 999999
+					}).focus();
+				},
+				success: function () {
+					M.Toast.dismissAll();
+					toastHTML = "<span>Nickname valido!</span>" +
+						"<button onclick='M.Toast.dismissAll()' class='btn-flat toast-action'>" +
+						"<span class='material-icons' style='display: block; color: white;'>cancel</span></button>";
+					M.toast({html: toastHTML, displayLength: 5000, duration: 4000});
+				},
+				error: function (data) {
+					M.Toast.dismissAll();
+					const errors = data.responseJSON.reason;
+					if ((typeof errors) === "object") {
+						$.each(errors, function (index, value) {
+							toastHTML = "<span>" + value + "</span>" +
+								"<button onclick='M.Toast.dismissAll()' class='btn-flat toast-action'>" +
+								"<span class='material-icons' style='display: block; color: white;'>cancel</span></button>";
+							M.toast({html: toastHTML, displayLength: 20000, duration: 20000});
+						});
+					} else {
+						toastHTML = "<span>" + errors + "</span>" +
+							"<button onclick='M.Toast.dismissAll()' class='btn-flat toast-action'>" +
+							"<span class='material-icons' style='display: block; color: white;'>cancel</span></button>";
+						M.toast({html: toastHTML, displayLength: 20000, duration: 20000});
+					}
+				},
+				complete: function () {
+					$("#skalmLoader").css({
+						display: "none"
+					});
+				},
 			});
 		});
 	});
@@ -146,5 +218,9 @@
 
     .row {
         margin-bottom: 0 !important;
+    }
+
+    input {
+        color: white;
     }
 </style>

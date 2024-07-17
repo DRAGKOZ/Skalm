@@ -7,7 +7,7 @@
 		</div>
 		<div class="col m6">
 			<div class="col-5">
-				<h2>Iniciar sesión</h2>
+				<h2 style="color: white">Iniciar sesión</h2>
 				<?php if ( session ()->getFlashdata ( 'msg' ) ): ?>
 					<div class="alert alert-warning">
 						<?= session ()->getFlashdata ( 'msg' ) ?>
@@ -35,6 +35,10 @@
 	</div>
 </div>
 <style>
+    input {
+        color: white;
+    }
+
     .at-item {
         filter: drop-shadow(4px 6px 3px rgb(0 0 0 / 0.4));
         animation-name: angry-animation;
@@ -50,6 +54,7 @@
             -webkit-transform: rotatey(360deg);
             transform: rotatey(360deg);
         }
+
 </style>
 <script>
 	$(document).ready(function () {

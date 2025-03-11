@@ -1,9 +1,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col m6 text-center align-center center-align center">
-			<img
-					src="<?= base_url ( 'assets/img/Full_logo_alyric.svg' ) ?>" class="at-item"
-					style="width: 90%;margin: auto;padding: initial;display: block;" alt="logo">
+			<img src="/assets/img/Full_Logo_alyric.png" class="at-item" style="width: 90%;margin: auto;padding: initial;display: block;" alt="logo">
 		</div>
 		<div class="col m6">
 			<div class="col-5">

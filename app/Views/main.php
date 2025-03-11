@@ -1,6 +1,6 @@
 <div class="container">
 	<img
-			src="<?= base_url ( 'assets/img/Full_logo_alyric.svg' ) ?>" class="at-item"
+			src="/assets/img/Full_Logo_alyric.png" class="at-item"
 			style="max-width: 40%;margin: auto;padding: initial;display: block;" alt="logo">
 	<style>
         .at-item {

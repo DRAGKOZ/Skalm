@@ -1,0 +1,52 @@
+@font-face {
+    font-family: 'Jogan Soft';
+    src: url('/assets/fonts/jogansoft.ttf') format('truetype');
+}
+
+body {
+    background-color: #000;
+    color: #00ff00;
+    font-family:'Jogan Soft', system-ui;
+    font-size: 1.5vw;
+    margin: 0;
+    overflow: hidden;
+}
+
+.terminal {
+    width: 95vw;
+    height: 85vh;
+    padding: 20px;
+    background: #000000;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+    border: 5px solid #c10d0d;
+    margin: 15px auto;
+
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Jogan Soft', system-ui;
+}
+
+.hidden {
+    display: none;
+}
+
+#video-window {
+    margin: 20px auto;
+    border: 2px solid #c10d0d;
+    padding: 10px;
+    background-color: #1a1a1a;
+    animation: fadeIn 2s ease-in-out;
+    width: 600px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

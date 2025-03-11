@@ -11,9 +11,8 @@
 			if ( $this->validateSession () ) {
 				return redirect ( '/' );
 			}
-			$header = [ 'session' => FALSE ];
-			$data = [];
-			return view ( 'header', $header ) . view ( 'signup', $data ) . view ( 'footer' );
+			$data = [ 'main' => view ('signup',['session'=>FALSE]) ];
+			return view ( 'base', $data );
 		}
 		public function signup (): ResponseInterface|bool {
 			if ( $data = $this->verifyRules ( 'POST', $this->request, NULL ) ) {
@@ -25,7 +24,7 @@
 				'name' => 'required|max_length[30]|alpha_space',
 				'lastName' => 'required|max_length[30]|alpha_space',
 				'sureName' => 'max_length[30]',
-				'birthday' => 'required|max_length[30]|valid_date[F j, Y]',
+				'birthday' => 'required|max_length[30]',
 				'gender' => 'required|max_length[30]|alpha_space',
 				'nickname' => 'required|max_length[15]',
 				'email' => 'required|max_length[254]|valid_email',
@@ -61,5 +60,13 @@
 				return $this->serverError ( 'No se logro registrar el usuario', 'Los datos ingresados contienen errores' );
 			}
 			return $this->getResponse ( [ 'error' => 200, 'description' => 'correcto', 'reason' => 'Usuario creado exitosamente' ] );
+		}
+		public function encryptPassword (){
+			if ( $data = $this->verifyRules ( 'POST', $this->request, NULL ) ) {
+				return ( $data );
+			}
+			$input = $this->getRequestInput ( $this->request );
+			helper ( 'crypt_helper' );
+			return $this->getResponse ([ 'password' => passwordEncrypt ($input['password'])]);
 		}
 	}

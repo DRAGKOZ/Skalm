@@ -11,7 +11,7 @@
 			if ($this->validateSession ()){
 				return redirect ('/');
 			}
-			$data = [ 'main' => view ('signin') ];
+			$data = [ 'main' => view ('signin'), 'session'=> 0 ];
 			return view ( 'base', $data );
 		}
 		public function signIn (): ResponseInterface|bool {

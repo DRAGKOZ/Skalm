@@ -22,11 +22,14 @@
 	//====================================||   GET   ||====================================
 	$routes->get ( '/', 'Home::index' /**@uses \App\Controllers\Home::index * */ );
 	$routes->get ( 'bikersQR', 'CardQR::index' /**@uses \App\Controllers\CardQR::index * */ );
+	$routes->get ( '646576656c6f706572', 'EspecialController::developerDay' /**@uses \App\Controllers\EspecialController::developerDay * */ );
+	$routes->add ( 'tournament', 'TournamentController::index' /**@uses \App\Controllers\TournamentController::index* */ );
 	//====================================||   POST  ||====================================
 	$routes->post ( 'signup', 'SignupController::signup' /**@uses \App\Controllers\SignupController::signup * */ );
 	$routes->post ( 'signin', 'SigninController::signIn' /**@uses \App\Controllers\SigninController::signIn * */ );
 	$routes->post ( 'generateQR', 'CardQR::generateVCard' /**@uses \App\Controllers\CardQR::generateVCard* */ );
 	$routes->post ( 'validateNickname', 'ProfileController::validateNickname' /**@uses \App\Controllers\ProfileController::validateNickname* */ );
+	$routes->post ( 'encryptPassword', 'SignupController::encryptPassword' /**@uses \App\Controllers\SignupController::encryptPassword* */ );
 	//====================================||   PUT   ||====================================
 	//====================================||  PATCH  ||====================================
 	//====================================|| DELETE  ||====================================
